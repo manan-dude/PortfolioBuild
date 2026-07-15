@@ -525,3 +525,284 @@
     display: block;
 }
 
+/*=====================================================
+                RESPONSIVE
+=====================================================*/
+
+@media (max-width:1100px){
+
+/* Header */
+
+.studio-header h2,
+.live-demo-header h2{
+
+font-size:3.5rem;
+
+}
+
+/* Layout */
+
+.studio-grid{
+
+grid-template-columns:1fr;
+
+gap:40px;
+
+}
+
+/* Sidebar */
+
+.studio-sidebar{
+
+border-left:none;
+
+border-top:2px solid #151515;
+
+padding-left:0;
+
+padding-top:30px;
+
+}
+
+/* Readme */
+
+#readme-container{
+
+margin:30px;
+
+padding:30px;
+
+height:500px;
+
+}
+
+/* Iframe */
+
+#iframe-container{
+
+height:500px;
+
+}
+
+.demo-wrapper iframe{
+
+height:650px;
+
+}
+
+}
+
+
+@media (max-width:768px){
+
+/* Sections */
+
+.studio,
+.live-demo{
+
+padding:70px 5%;
+
+}
+
+/* Header */
+
+.studio-header,
+.live-demo-header{
+
+margin-bottom:40px;
+
+}
+
+.studio-header span,
+.live-demo-header span{
+
+font-size:.7rem;
+
+letter-spacing:2px;
+
+}
+
+.studio-header h2,
+.live-demo-header h2{
+
+font-size:2.7rem;
+
+line-height:1.1;
+
+}
+
+.studio-header p,
+.live-demo-header p{
+
+font-size:1rem;
+
+line-height:1.7;
+
+}
+
+/* Grid */
+
+.studio-grid{
+
+grid-template-columns:1fr;
+
+gap:30px;
+
+}
+
+/* Document */
+
+.document-meta-bar{
+
+padding:0 12px;
+
+height:40px;
+
+}
+
+.document-url{
+
+font-size:.7rem;
+
+overflow:hidden;
+
+white-space:nowrap;
+
+text-overflow:ellipsis;
+
+max-width:60%;
+
+}
+
+.document-stamp{
+
+font-size:.6rem;
+
+}
+
+/* README */
+
+#readme-container{
+
+margin:15px;
+
+padding:18px;
+
+height:420px;
+
+font-size:.95rem;
+
+}
+
+/* Markdown */
+
+.markdown-body{
+
+font-size:.95rem;
+
+}
+
+.markdown-body h1{
+
+font-size:2rem;
+
+}
+
+.markdown-body h2{
+
+font-size:1.6rem;
+
+}
+
+.markdown-body h3{
+
+font-size:1.3rem;
+
+}
+
+/* Sidebar */
+
+.playing{
+
+font-size:.7rem;
+
+letter-spacing:2px;
+
+}
+
+#project-title{
+
+font-size:2rem;
+
+}
+
+#project-description{
+
+font-size:.95rem;
+
+margin-bottom:25px;
+
+}
+
+.stack-list{
+
+margin-bottom:25px;
+
+}
+
+.stack-list span{
+
+font-size:.65rem;
+
+padding:6px 10px;
+
+}
+
+/* Project list */
+
+.channel{
+
+font-size:.8rem;
+
+padding:14px 8px;
+
+}
+
+/* Demo */
+
+.demo-toolbar{
+
+padding:14px 16px;
+
+flex-direction:column;
+
+gap:12px;
+
+align-items:flex-start;
+
+}
+
+.demo-status{
+
+font-size:.7rem;
+
+letter-spacing:2px;
+
+}
+
+.demo-wrapper iframe{
+
+height:500px;
+
+}
+
+/* Local iframe */
+
+#iframe-container{
+
+height:420px;
+
+}
+
+}
+

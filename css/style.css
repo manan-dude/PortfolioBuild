@@ -392,3 +392,169 @@ padding-left:10px;
     letter-spacing:5px;
 
 }
+
+/*=====================================================
+                RESPONSIVE
+=====================================================*/
+
+@media (max-width:768px){
+
+body{
+
+overflow-x:hidden;
+
+}
+
+/*--------------------
+Masthead
+---------------------*/
+
+.masthead{
+
+padding:20px 5%;
+
+row-gap:18px;
+
+}
+
+.masthead-top,
+.masthead-bottom{
+
+gap:18px;
+
+}
+
+.masthead-top a,
+.masthead-bottom a{
+
+font-size:.7rem;
+
+letter-spacing:1px;
+
+}
+
+.newspaper-name{
+
+font-size:3.2rem;
+
+text-align:center;
+
+line-height:.9;
+
+}
+
+/*--------------------
+Hero
+---------------------*/
+
+.hero{
+
+grid-template-columns:1fr;
+
+gap:40px;
+
+padding:40px 5%;
+
+}
+
+/* Hero Left */
+
+.hero-left{
+
+order:2;
+
+}
+
+.hero-left h2{
+
+font-size:3.2rem;
+
+line-height:1;
+
+margin-bottom:20px;
+
+}
+
+.hero-left p{
+
+font-size:1rem;
+
+line-height:1.8;
+
+max-width:100%;
+
+}
+
+/* Buttons */
+
+.hero-buttons{
+
+flex-direction:column;
+
+gap:15px;
+
+}
+
+.hero-buttons a{
+
+text-align:center;
+
+width:100%;
+
+}
+
+/* Image */
+
+.photo-card{
+
+order:1;
+
+max-width:360px;
+
+margin:auto;
+
+transform:none;
+
+}
+
+.photo-card:hover{
+
+transform:translateY(-8px);
+
+}
+
+/* Right News */
+
+.hero-right{
+
+order:3;
+
+border-left:none;
+
+border-top:1px solid #ddd;
+
+padding-left:0;
+
+padding-top:20px;
+
+width:100%;
+
+}
+
+.hero-right h3{
+
+font-size:.8rem;
+
+letter-spacing:3px;
+
+}
+
+.hero-right li{
+
+padding:14px 0;
+
+font-size:.9rem;
+
+}
+
+}
