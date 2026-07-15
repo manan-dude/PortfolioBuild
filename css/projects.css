@@ -1,0 +1,527 @@
+
+/* Update the dot class */
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff3b30; /* High contrast red */
+    animation: blink 1.5s infinite ease-in-out;
+    display: inline-block;
+    flex-shrink: 0; /* Prevents the dot from squeezing */
+}
+
+/* Add the blink keyframes */
+@keyframes blink {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.15; 
+        transform: scale(0.85);
+    }
+}
+
+
+/* ======================================
+        LIVE PROJECT STUDIO (NEWSPAPER EDIT)
+        Tokens: #F7F4EE Paper | #151515 Ink
+======================================= */
+
+.studio-header {
+    text-align: center;
+    max-width: 900px;
+    margin: auto;
+    margin-bottom: 70px;
+}
+
+.studio-header span {
+    font-size: .85rem;
+    letter-spacing: 3px;
+    font-family: Inter, sans-serif;
+    text-transform: uppercase;
+    color: #151515;
+    font-weight: 700;
+}
+
+.studio-header h2 {
+    margin: 15px 0;
+    font-size: 4.5rem;
+    line-height: .95;
+    font-family: "Cormorant Garamond", serif;
+    color: #151515;
+}
+
+.studio-header p {
+    color: #2b2b2b;
+    line-height: 1.8;
+    font-family: "IBM Plex Serif", serif;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Layout Grid structure */
+.studio-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 50px;
+    align-items: start;
+    border-top: 3px double #151515; /* Classic double rule newspaper border */
+    padding-top: 40px;
+}
+
+/* Hard-edged newspaper badge */
+.live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #151515;
+    color: #F7F4EE;
+    padding: 6px 14px;
+    margin-bottom: 20px;
+    font-family: Inter, sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+/* FIX: Blinking dot rule */
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff3b30;
+    animation: blink 1.5s infinite ease-in-out;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+@keyframes blink {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.15; 
+        transform: scale(0.85);
+    }
+}
+
+/* Framed Document Asset (Replaced floating software monitor) */
+/* FIX: min-width: 0 forces column to respect fractional space and not stick to sidebar */
+.document-area {
+    width: 100%;
+    min-width: 0; 
+}
+
+.document-frame {
+    background: #ffffff;
+    border: 2px solid #151515;
+    box-shadow: 6px 6px 0px #151515; /* Flat hard graphic shadow */
+}
+
+/* Meta Bar replacing the app browser bar */
+.document-meta-bar {
+    height: 44px;
+    background: #F7F4EE;
+    border-bottom: 2px solid #151515;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.document-url {
+    color: #151515;
+    font-size: .85rem;
+    font-family: Inter, sans-serif;
+    font-weight: 500;
+}
+
+.document-stamp {
+    font-size: .7rem;
+    font-family: Inter, sans-serif;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #666;
+}
+
+/* FIX: Added overflow-x: hidden here so container doesn't stretch */
+#readme-container {
+    background:#fffdf7;
+    height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden; 
+    padding: 50px;
+    margin: 50px;
+    border: 2px solid #151515;
+    transition: opacity .2s ease;
+}
+
+#readme-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+#readme-container::-webkit-scrollbar-thumb {
+    background: #151515;
+}
+
+/* Newspaper Markdown Typography Integration */
+.markdown-body {
+    font-family: "IBM Plex Serif", serif;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #151515;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+    font-family: "Cormorant Garamond", serif;
+    color: #151515;
+    font-weight: 700;
+    border-bottom: 1px solid #151515;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+}
+
+.markdown-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.markdown-body th, 
+.markdown-body td {
+    padding: 10px 12px;
+    border: 1px solid #151515;
+    text-align: left;
+}
+
+.markdown-body th {
+    background: #F7F4EE;
+    font-family: Inter, sans-serif;
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* FIX: Force block code snippets to scroll internally so they don't break width */
+.markdown-body pre {
+    background: #0d1117;
+    border-radius: 4px;
+    padding: 16px;
+    overflow-x: auto;
+    max-width: 100%;
+    white-space: pre;
+}
+
+/* FIX: Inline code blocks break cleanly */
+.markdown-body code {
+    font-family: Inter, monospace;
+    background: #F7F4EE;
+    padding: 2px 6px;
+    border-radius: 3px;
+    word-break: break-all;
+}
+
+/* Editorial Index Sidebar Layout */
+.studio-sidebar {
+    border-left: 2px solid #151515;
+    padding-left: 40px;
+}
+
+.playing {
+    font-size: .8rem;
+    letter-spacing: 3px;
+    font-family: Inter, sans-serif;
+    text-transform: uppercase;
+    color: #151515;
+    font-weight: 700;
+    display: block;
+}
+
+#project-title {
+    margin: 10px 0 20px 0;
+    font-size: 3rem;
+    line-height: 1;
+    font-family: "Cormorant Garamond", serif;
+    color: #151515;
+}
+
+#project-description {
+    line-height: 1.7;
+    color: #2b2b2b;
+    font-family: "IBM Plex Serif", serif;
+    margin-bottom: 35px;
+}
+
+/* Clean Tag Layout */
+.stack-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 40px;
+}
+
+.stack-list span {
+    padding: 6px 12px;
+    border: 1px solid #151515;
+    font-size: .75rem;
+    font-family: Inter, sans-serif;
+    text-transform: uppercase;
+    background: #F7F4EE;
+    color: #151515;
+}
+
+/* Clean Index List layout matching paper taxonomy columns */
+.channel-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 2px solid #151515;
+}
+
+.channel {
+    border: none;
+    border-bottom: 1px solid #151515;
+    background: transparent;
+    text-align: left;
+    padding: 16px 8px;
+    cursor: pointer;
+    font-family: Inter, sans-serif;
+    font-size: .9rem;
+    font-weight: 600;
+    color: #151515;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+.channel:hover,
+.channel.active {
+    background: #151515;
+    color: #F7F4EE;
+    padding-left: 16px;
+}
+
+/* Minimal Editorial Skeleton structure */
+.readme-skeleton .skel-line {
+    background: #e0dcd3;
+    height: 14px;
+    margin-bottom: 12px;
+}
+.readme-skeleton .skel-line.h { height: 28px; width: 40%; background: #151515; margin-bottom: 30px; }
+.readme-skeleton .skel-line.w90 { width: 90%; }
+.readme-skeleton .skel-line.w70 { width: 70%; }
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .studio-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .studio-sidebar {
+        border-left: none;
+        border-top: 2px solid #151515;
+        padding-left: 0;
+        padding-top: 30px;
+    }
+    .studio-header h2 {
+        font-size: 3rem;
+    }
+}
+
+.project-preview{
+    height:700px;
+    border:2px solid #111;
+    overflow:hidden;
+    background:#fff;
+}
+
+.project-preview iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+
+/*=========================================
+        LIVE DEMO
+=========================================*/
+
+.live-demo{
+
+    padding:140px 8%;
+
+    background:#f7f4ee;
+
+}
+
+.live-demo-header{
+
+    max-width:850px;
+
+    margin:auto;
+
+    text-align:center;
+
+    margin-bottom:60px;
+
+}
+
+.live-demo-header span{
+
+    font-size:.8rem;
+
+    letter-spacing:4px;
+
+    text-transform:uppercase;
+
+    font-family:Inter,sans-serif;
+
+}
+
+.live-demo-header h2{
+
+    font-size:4.5rem;
+
+    margin:20px 0;
+
+    font-family:"Cormorant Garamond",serif;
+
+}
+
+.live-demo-header p{
+
+    max-width:600px;
+
+    margin:auto;
+
+    line-height:1.8;
+
+}
+
+.demo-wrapper{
+
+    max-width:1500px;
+
+    margin:auto;
+
+    border:2px solid #111;
+
+    background:#fffef8;
+
+    box-shadow:18px 18px 0 rgba(0,0,0,.08);
+
+}
+
+.demo-toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 30px;
+
+    border-bottom:2px solid #111;
+
+}
+
+.demo-status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-family:Inter,sans-serif;
+
+    letter-spacing:3px;
+
+    font-size:.8rem;
+
+    text-transform:uppercase;
+
+}
+
+.live-dot{
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    background:#d62828;
+
+    animation:pulse 1s infinite;
+
+}
+
+.demo-toolbar a{
+
+    color:#111;
+
+    text-decoration:none;
+
+    font-family:Inter,sans-serif;
+
+    font-weight:600;
+
+}
+
+.demo-toolbar a:hover{
+
+    text-decoration:underline;
+
+}
+
+.demo-wrapper iframe{
+
+    width:100%;
+
+    height:850px;
+
+    border:none;
+
+}
+
+@keyframes pulse{
+
+    0%,100%{
+
+        opacity:1;
+
+    }
+
+    50%{
+
+        opacity:.3;
+
+    }
+
+}
+
+
+/* ==============================
+   IFRAME VIEW
+============================== */
+
+/* Ensure the iframe workspace occupies the identical footprint of the text layout area */
+#iframe-container {
+    width: 100%;
+    height: 600px; /* Must align exactly with your #readme-container height */
+    overflow: hidden;
+}
+
+#project-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #ffffff;
+    display: block;
+}
+

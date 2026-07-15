@@ -1,0 +1,99 @@
+.contact-section{
+
+    padding:120px 8%;
+
+    text-align:center;
+
+    border-top:2px solid #111;
+
+    border-bottom:2px solid #111;
+
+}
+
+.contact-tag{
+
+    font-size:.8rem;
+
+    letter-spacing:4px;
+
+    text-transform:uppercase;
+
+    font-family:Inter,sans-serif;
+
+}
+
+.contact-section h2{
+
+    font-size:4.5rem;
+
+    font-family:"Cormorant Garamond",serif;
+
+    margin:25px 0;
+
+}
+
+.contact-section p{
+
+    max-width:650px;
+
+    margin:auto;
+
+    line-height:1.8;
+
+}
+
+.contact-links{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:70px;
+
+    margin-top:70px;
+
+    flex-wrap:wrap;
+
+}
+
+.contact-links a{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:15px;
+
+    text-decoration:none;
+
+    color:#111;
+
+    transition:.3s;
+
+}
+
+.contact-links i{
+
+    font-size:2.4rem;
+
+}
+
+.contact-links span{
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    font-size:.75rem;
+
+    font-family:Inter,sans-serif;
+
+}
+
+.contact-links a:hover{
+
+    transform:translateY(-8px);
+
+}

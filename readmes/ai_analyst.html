@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Analyst — Invest with Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #05060A;
+    --bg2: #0C0E18;
+    --bg3: #111426;
+    --surface: #161929;
+    --surface2: #1D2235;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --accent: #4F6EF7;
+    --accent2: #7B5EF8;
+    --accent3: #2CDBA8;
+    --accent4: #F7954F;
+    --text: #F0F2FF;
+    --text2: #9DA3C2;
+    --text3: #5C6180;
+    --glow: rgba(79,110,247,0.18);
+    --glow2: rgba(44,219,168,0.12);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ─── GRID OVERLAY ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(rgba(79,110,247,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,110,247,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(5,6,10,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: #fff !important;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    transition: opacity 0.2s !important;
+  }
+
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 2rem 80px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,110,247,0.12) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,94,248,0.08) 0%, transparent 70%);
+    top: 30%;
+    left: 70%;
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(79,110,247,0.1);
+    border: 1px solid rgba(79,110,247,0.25);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: #7B9EFF;
+    margin-bottom: 2rem;
+    font-family: var(--font-mono);
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent3);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero-title .gradient {
+    background: linear-gradient(135deg, #4F6EF7 0%, #7B5EF8 40%, #2CDBA8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-title .outline {
+    -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--text2);
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+    font-weight: 300;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+
+  .btn-primary:hover {
+    background: #3d5de8;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 40px rgba(79,110,247,0.35);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text2);
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 400;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border2);
+    transition: all 0.2s;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--border2);
+    color: var(--text);
+    background: var(--surface);
+  }
+
+  /* ─── STATS STRIP ─── */
+  .stats-strip {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+
+  .stat-item {
+    padding: 1.5rem 2rem;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-num.red { color: #F7604F; }
+  .stat-num.amber { color: var(--accent4); }
+  .stat-num.blue { color: var(--accent); }
+  .stat-num.green { color: var(--accent3); }
+
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text3);
+    font-family: var(--font-mono);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-desc {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.4;
+  }
+
+  /* ─── SECTION WRAPPER ─── */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 7rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-full {
+    position: relative;
+    z-index: 1;
+    padding: 7rem 2rem;
+  }
+
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    background: rgba(79,110,247,0.08);
+    border: 1px solid rgba(79,110,247,0.2);
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    font-size: 1.1rem;
+    color: var(--text2);
+    max-width: 560px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* ─── FEATURES GRID ─── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 4rem;
+  }
+
+  .feature-card {
+    background: var(--bg2);
+    padding: 2.5rem;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .feature-card:hover {
+    background: var(--bg3);
+  }
+
+  .feature-card:hover::before { opacity: 1; }
+
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .icon-blue { background: rgba(79,110,247,0.12); color: var(--accent); }
+  .icon-purple { background: rgba(123,94,248,0.12); color: var(--accent2); }
+  .icon-teal { background: rgba(44,219,168,0.1); color: var(--accent3); }
+  .icon-orange { background: rgba(247,149,79,0.12); color: var(--accent4); }
+  .icon-red { background: rgba(247,96,79,0.1); color: #F7604F; }
+  .icon-pink { background: rgba(247,79,160,0.1); color: #F74FA0; }
+
+  .feature-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.1em;
+  }
+
+  .feature-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+  }
+
+  .feature-desc {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  .how-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    margin-top: 4rem;
+  }
+
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step-item {
+    display: flex;
+    gap: 1.5rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .step-item:first-child { padding-top: 0; }
+  .step-item:last-child { border-bottom: none; }
+
+  .step-item.active .step-num { background: var(--accent); color: #fff; }
+  .step-item.active .step-title { color: var(--text); }
+
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text3);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .step-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 0.4rem;
+    transition: color 0.2s;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--text3);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .how-visual {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ─── DASHBOARD MOCKUP ─── */
+  .dashboard-mockup {
+    width: 100%;
+    height: 100%;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .mock-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mock-logo {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .mock-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 3px;
+  }
+
+  .mock-tab {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .mock-tab.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .mock-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .mock-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 14px;
+    border: 1px solid var(--border);
+  }
+
+  .mock-card-label {
+    font-size: 10px;
+    color: var(--text3);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .mock-card-val {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .mock-card-val.up { color: var(--accent3); }
+  .mock-card-val.neutral { color: var(--accent); }
+
+  .mock-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 40px;
+    margin-top: 8px;
+  }
+
+  .mock-bar {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+    background: rgba(79,110,247,0.2);
+    transition: all 0.3s;
+  }
+
+  .mock-bar.active { background: var(--accent); }
+
+  .mock-verdict {
+    background: rgba(44,219,168,0.08);
+    border: 1px solid rgba(44,219,168,0.2);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .verdict-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent3);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .verdict-text {
+    font-size: 11px;
+    color: var(--accent3);
+    font-family: var(--font-mono);
+  }
+
+  /* ─── ARCHITECTURE ─── */
+  .arch-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-top: 4rem;
+  }
+
+  .arch-card {
+    background: var(--bg2);
+    padding: 2rem 1.5rem;
+    transition: background 0.2s;
+  }
+
+  .arch-card:hover { background: var(--bg3); }
+
+  .arch-card-label {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text3);
+    margin-bottom: 1.25rem;
+  }
+
+  .arch-service {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .arch-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .arch-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .arch-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-bottom: 2px;
+    font-weight: 500;
+  }
+
+  .tag-new { background: rgba(44,219,168,0.12); color: var(--accent3); }
+  .tag-fast { background: rgba(247,149,79,0.12); color: var(--accent4); }
+  .tag-blob { background: rgba(79,110,247,0.12); color: var(--accent); }
+  .tag-nosql { background: rgba(123,94,248,0.12); color: var(--accent2); }
+  .tag-serverless { background: rgba(247,96,79,0.1); color: #F7604F; }
+
+  .arch-sub {
+    font-size: 11px;
+    color: var(--text3);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  /* ─── COMPARISON ─── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .compare-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+  }
+
+  .compare-card.ours {
+    border-color: rgba(79,110,247,0.3);
+    background: rgba(79,110,247,0.04);
+  }
+
+  .compare-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .compare-icon-bad {
+    width: 28px; height: 28px;
+    background: rgba(247,96,79,0.12);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    color: #F7604F;
+  }
+
+  .compare-icon-good {
+    width: 28px; height: 28px;
+    background: rgba(44,219,168,0.12);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    color: var(--accent3);
+  }
+
+  .compare-label {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text3);
+  }
+
+  .compare-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .compare-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .compare-row-icon {
+    font-size: 14px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .compare-row-text {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .compare-row-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  /* ─── FUTURE SCOPE ─── */
+  .future-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .future-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .future-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    transition: opacity 0.3s;
+    opacity: 0;
+  }
+
+  .future-card.fc1::after { background: var(--accent); }
+  .future-card.fc2::after { background: var(--accent2); }
+  .future-card.fc3::after { background: var(--accent3); }
+  .future-card.fc4::after { background: var(--accent4); }
+
+  .future-card:hover { background: var(--bg3); transform: translateY(-3px); }
+  .future-card:hover::after { opacity: 1; }
+
+  .future-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin-bottom: 1.25rem;
+  }
+
+  .future-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .future-desc {
+    font-size: 13px;
+    color: var(--text3);
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 1.25rem;
+  }
+
+  .future-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .ftag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: 100px;
+    color: var(--text3);
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  /* ─── TEAM ─── */
+  .team-section {
+    text-align: center;
+    padding: 7rem 2rem;
+  }
+
+  .team-card {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem 4rem;
+    margin-top: 3rem;
+  }
+
+  .team-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .team-name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .team-role {
+    font-size: 13px;
+    color: var(--text3);
+    font-family: var(--font-mono);
+  }
+
+  .team-badge {
+    background: rgba(44,219,168,0.08);
+    border: 1px solid rgba(44,219,168,0.2);
+    color: var(--accent3);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 6px 16px;
+    border-radius: 100px;
+  }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    text-align: center;
+    padding: 7rem 2rem;
+    position: relative;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,110,247,0.08) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-sub {
+    font-size: 1.1rem;
+    color: var(--text2);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .cta-note {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: var(--font-mono);
+    margin-top: 1rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text2);
+  }
+
+  .footer-text {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: var(--font-mono);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--text3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+
+  @media (max-width: 900px) {
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .features-grid { grid-template-columns: 1fr; }
+    .how-wrapper { grid-template-columns: 1fr; }
+    .arch-grid { grid-template-columns: repeat(2, 1fr); }
+    .compare-grid { grid-template-columns: 1fr; }
+    .future-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">⚡</div>
+    AI Analyst
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#stack">Architecture</a></li>
+    <li><a href="#scope">Roadmap</a></li>
+    <li><a href="#contact" class="nav-cta">Request Demo</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div style="position:relative; z-index:1; max-width: 900px;">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      Gen AI Exchange Hackathon · Team Dudester
+    </div>
+    <h1 class="hero-title">
+      Stop Investing<br>
+      <span class="gradient">Blind.</span>
+    </h1>
+    <p class="hero-sub">AI Analyst automates startup due diligence — pitch decks, competitor landscapes, video pitches, and live databases — in minutes, not months.</p>
+    <div class="hero-actions">
+      <a href="#features" class="btn-primary">
+        <span>Explore Features</span>
+        <span>→</span>
+      </a>
+      <a href="#how" class="btn-secondary">
+        <span>▶ Watch Demo</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip reveal">
+  <div class="stat-item">
+    <div class="stat-num red">118 Hrs</div>
+    <div class="stat-label">Avg. time per deal</div>
+    <div class="stat-desc">Manual due diligence is broken at scale — firms review 1,000+ proposals a year</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num amber">90%</div>
+    <div class="stat-label">Unstructured data</div>
+    <div class="stat-desc">Critical signals hide in videos, calls, and unindexed documents — invisible to humans</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num blue">42%</div>
+    <div class="stat-label">Fail: no market need</div>
+    <div class="stat-desc">Static reports miss real-time market shifts. Live intel changes everything</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num green">~99%</div>
+    <div class="stat-label">Deals are rejected</div>
+    <div class="stat-desc">VCs skim decks in 2.5 minutes. Great startups fail because analysts lack bandwidth</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="reveal">
+    <div class="section-badge">✦ Core Features</div>
+    <h2 class="section-title">Every angle of a deal.<br>One intelligent platform.</h2>
+    <p class="section-sub">Five purpose-built AI modules that replace weeks of analyst work with actionable intelligence delivered in minutes.</p>
+  </div>
+
+  <div class="features-grid reveal">
+    <div class="feature-card">
+      <div class="feature-icon icon-blue">📄</div>
+      <div class="feature-num">01 / AI Analyzer</div>
+      <div class="feature-title">Pitch Deck Intelligence</div>
+      <div class="feature-desc">Upload any pitch deck PDF. Our AI extracts key strategic insights, financial metrics, risk flags, and delivers a buy/invest verdict with full citations. Tables and charts are reconstructed automatically.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon icon-purple">📊</div>
+      <div class="feature-num">02 / Competitor Analysis</div>
+      <div class="feature-title">Market Landscape Radar</div>
+      <div class="feature-desc">Input any two companies for an instant head-to-head analysis — market cap, pricing strategy, tech moat, and SWOT — with a definitive investment verdict backed by live web data.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon icon-teal">🎥</div>
+      <div class="feature-num">03 / Video Pitch Analyzer</div>
+      <div class="feature-title">Founder Credibility Score</div>
+      <div class="feature-desc">Paste a YouTube link. AI watches the pitch, scores founder confidence, extracts business claims, fact-checks every number against live sources, and flags visual red flags instantly.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon icon-orange">🗄️</div>
+      <div class="feature-num">04 / Ask Your Database</div>
+      <div class="feature-title">Natural Language Analytics</div>
+      <div class="feature-desc">Connect your MongoDB and ask questions in plain English. No SQL needed. Get instant summaries, auto-generated charts, and investment recommendations from your own proprietary data.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon icon-pink">💬</div>
+      <div class="feature-num">05 / Ask Your Startup</div>
+      <div class="feature-title">RAG-Powered Q&amp;A</div>
+      <div class="feature-desc">Upload pitch decks, financial reports, or contracts. Ask anything in plain English. Our RAG engine surfaces precise answers with citations — no hallucinations, just evidence-backed responses.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon icon-red">🔬</div>
+      <div class="feature-num">06 / Document Forensics</div>
+      <div class="feature-title">Visual Data Extraction</div>
+      <div class="feature-desc">Deep dive into massive PDF files. Extract embedded tables, reconstruct charts, summarize multi-hundred-page documents, and identify anomalies in seconds using Gemini Vision.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" style="padding-top: 0;">
+  <div class="reveal">
+    <div class="section-badge">✦ How It Works</div>
+    <h2 class="section-title">From raw data to<br>conviction in minutes.</h2>
+    <p class="section-sub">A single intelligent pipeline that ingests any source and returns structured, actionable intelligence.</p>
+  </div>
+
+  <div class="how-wrapper">
+    <div class="steps-list reveal">
+      <div class="step-item active" onclick="setStep(this, 0)">
+        <div class="step-num">01</div>
+        <div>
+          <div class="step-title">Ingest any data source</div>
+          <div class="step-desc">Upload pitch deck PDFs, paste YouTube links, connect your MongoDB, or provide competitor URLs. Any format, any source.</div>
+        </div>
+      </div>
+      <div class="step-item" onclick="setStep(this, 1)">
+        <div class="step-num">02</div>
+        <div>
+          <div class="step-title">Multi-modal processing</div>
+          <div class="step-desc">Cloud Vision OCR extracts text from documents. YouTube Transcript API captures spoken words. Crawl4AI scrapes competitor sites in real time.</div>
+        </div>
+      </div>
+      <div class="step-item" onclick="setStep(this, 2)">
+        <div class="step-num">03</div>
+        <div>
+          <div class="step-title">Gemini AI Engine</div>
+          <div class="step-desc">Vertex AI serves Gemini 3.0 Pro for deep reasoning. Entity extraction, semantic scoring, and NLP processing transforms raw content into structured intelligence.</div>
+        </div>
+      </div>
+      <div class="step-item" onclick="setStep(this, 3)">
+        <div class="step-num">04</div>
+        <div>
+          <div class="step-title">Grounded investment verdict</div>
+          <div class="step-desc">Every claim is fact-checked against live Google Search. Outputs are stored in ChromaDB + MongoDB and delivered as an interactive dashboard with JSON export.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="how-visual reveal" id="how-visual">
+      <div class="dashboard-mockup" id="mock-content">
+        <!-- Step 0 -->
+        <div class="mock-header">
+          <div class="mock-logo">AI Analyst</div>
+          <div class="mock-tabs">
+            <div class="mock-tab active">Summary</div>
+            <div class="mock-tab">Forensics</div>
+          </div>
+        </div>
+        <div style="font-size:11px; color: var(--text3); font-family: var(--font-mono);">Dr. Doodley_Investor_Deck.pdf · 9 pages processed</div>
+        <div class="mock-grid">
+          <div class="mock-card">
+            <div class="mock-card-label">Revenue Trend</div>
+            <div class="mock-card-val up">₹40L / mo</div>
+            <div class="mock-bars">
+              <div class="mock-bar" style="height:25%"></div>
+              <div class="mock-bar" style="height:35%"></div>
+              <div class="mock-bar" style="height:50%"></div>
+              <div class="mock-bar" style="height:65%"></div>
+              <div class="mock-bar active" style="height:90%"></div>
+            </div>
+          </div>
+          <div class="mock-card">
+            <div class="mock-card-label">Net Margin</div>
+            <div class="mock-card-val neutral">32%</div>
+            <div style="font-size:11px; color: var(--text3); margin-top:6px;">at ₹1 Cr MRR target</div>
+            <div style="margin-top:10px; height:4px; background: var(--surface2); border-radius:2px;"><div style="width:32%; height:100%; background: var(--accent); border-radius:2px;"></div></div>
+          </div>
+        </div>
+        <div class="mock-verdict">
+          <div class="verdict-dot"></div>
+          <div class="verdict-text">BUY / INVEST — Breakeven at Month 9, 15% Net Profit at Month 12</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<div class="arch-section section-full" id="stack">
+  <div class="section" style="padding-top:0; padding-bottom:0;">
+    <div class="reveal">
+      <div class="section-badge">✦ Technology Stack</div>
+      <h2 class="section-title">Google Cloud<br>Architecture.</h2>
+      <p class="section-sub">A fully serverless, event-driven platform built on the latest Gemini 2.5 &amp; 3.0 models. Production-grade from day one.</p>
+    </div>
+    <div class="arch-grid reveal">
+      <div class="arch-card">
+        <div class="arch-card-label">AI Models</div>
+        <div class="arch-service">
+          <div class="arch-item">
+            <span class="arch-tag tag-new">New</span>
+            <div class="arch-name">Gemini 3.0 Pro Preview</div>
+            <div class="arch-sub">Multimodal reasoning for video pitch analysis and complex agentic workflows</div>
+          </div>
+          <div class="arch-item" style="margin-top:12px;">
+            <span class="arch-tag tag-fast">Speed</span>
+            <div class="arch-name">Gemini 2.5 Flash</div>
+            <div class="arch-sub">Ultra-low latency OCR for tables, charts, and real-time data extraction</div>
+          </div>
+          <div class="arch-item" style="margin-top:12px;">
+            <span class="arch-tag tag-blob" style="background:rgba(44,219,168,0.1); color:var(--accent3);">WEB</span>
+            <div class="arch-name">Search Grounding</div>
+            <div class="arch-sub">Live Google Search for fact-checking every pitch deck claim</div>
+          </div>
+        </div>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-label">Compute &amp; Hosting</div>
+        <div class="arch-service">
+          <div class="arch-item">
+            <span class="arch-tag tag-serverless">Serverless</span>
+            <div class="arch-name">Cloud Run</div>
+            <div class="arch-sub">Auto-scaling FastAPI backend and Crawl4AI agents with zero cold-start overhead</div>
+          </div>
+          <div class="arch-item" style="margin-top:12px;">
+            <span class="arch-tag" style="background:rgba(247,149,79,0.1); color:var(--accent4);">CI/CD</span>
+            <div class="arch-name">Cloud Build</div>
+            <div class="arch-sub">Automated pipeline from GitHub to Artifact Registry on every commit</div>
+          </div>
+        </div>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-label">Data Layer</div>
+        <div class="arch-service">
+          <div class="arch-item">
+            <span class="arch-tag tag-blob">Blob</span>
+            <div class="arch-name">Cloud Storage (GCS)</div>
+            <div class="arch-sub">Staging for PDF uploads, video files, and raw audio ingestion pipelines</div>
+          </div>
+          <div class="arch-item" style="margin-top:12px;">
+            <span class="arch-tag tag-nosql">NoSQL</span>
+            <div class="arch-name">MongoDB Atlas</div>
+            <div class="arch-sub">Unstructured JSON analysis outputs and MCP server context persistence</div>
+          </div>
+          <div class="arch-item" style="margin-top:12px;">
+            <span class="arch-tag" style="background:rgba(79,110,247,0.1); color:var(--accent);">DW</span>
+            <div class="arch-name">BigQuery</div>
+            <div class="arch-sub">Warehousing extracted financial metrics for trend analysis</div>
+          </div>
+        </div>
+      </div>
+      <div class="arch-card">
+        <div class="arch-card-label">Integration</div>
+        <div class="arch-service">
+          <div class="arch-item">
+            <div class="arch-name">LangChain (Python)</div>
+            <div class="arch-sub">Orchestrates the flow between Vertex AI models, Crawl4AI scraper, and React frontend</div>
+          </div>
+          <div class="arch-item" style="margin-top:12px;">
+            <div class="arch-name">ChromaDB</div>
+            <div class="arch-sub">Vector storage for RAG embeddings and semantic document search</div>
+          </div>
+          <div class="arch-item" style="margin-top:12px;">
+            <div class="arch-name">Firebase</div>
+            <div class="arch-sub">Real-time database sync for the React dashboard and authentication</div>
+          </div>
+          <div class="arch-item" style="margin-top:12px;">
+            <div class="arch-name">Cloud IAM + Secret Manager</div>
+            <div class="arch-sub">Granular permissions and secure API key management across all services</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOVELTY -->
+<section class="section">
+  <div class="reveal">
+    <div class="section-badge">✦ Why We're Different</div>
+    <h2 class="section-title">Not another analytics tool.<br>A new standard.</h2>
+    <p class="section-sub">The market is full of passive dashboards. AI Analyst is the first platform with active intelligence — it thinks, verifies, and decides for you.</p>
+  </div>
+  <div class="compare-grid reveal">
+    <div class="compare-card">
+      <div class="compare-header">
+        <div class="compare-icon-bad">✕</div>
+        <div class="compare-label">The Old Way (Others)</div>
+      </div>
+      <div class="compare-rows">
+        <div class="compare-row">
+          <div class="compare-row-icon" style="color: #F7604F;">✕</div>
+          <div>
+            <div class="compare-row-title">Siloed tools</div>
+            <div class="compare-row-text">Separate PDF readers, separate web scrapers — no unified intelligence layer</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-row-icon" style="color: #F7604F;">✕</div>
+          <div>
+            <div class="compare-row-title">Passive reporting</div>
+            <div class="compare-row-text">Static charts sitting on dashboards, waiting for an analyst to interpret them</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-row-icon" style="color: #F7604F;">✕</div>
+          <div>
+            <div class="compare-row-title">"Dark data" blind spot</div>
+            <div class="compare-row-text">Can't process founder interviews, YouTube pitches, or live demos — the most signal-rich content</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-row-icon" style="color: #F7604F;">✕</div>
+          <div>
+            <div class="compare-row-title">Unverified claims</div>
+            <div class="compare-row-text">Accepts pitch deck numbers as truth. No grounding against real-world data</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="compare-card ours">
+      <div class="compare-header">
+        <div class="compare-icon-good">✓</div>
+        <div class="compare-label" style="color: var(--accent3);">AI Analyst</div>
+      </div>
+      <div class="compare-rows">
+        <div class="compare-row">
+          <div class="compare-row-icon" style="color: var(--accent3);">✓</div>
+          <div>
+            <div class="compare-row-title">Fused intelligence</div>
+            <div class="compare-row-text">PDFs, websites, video, and databases — all processed in one unified brain</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-row-icon" style="color: var(--accent3);">✓</div>
+          <div>
+            <div class="compare-row-title">Active agency</div>
+            <div class="compare-row-text">Proactive risk scoring, recommendations, and investment verdicts — not waiting to be asked</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-row-icon" style="color: var(--accent3);">✓</div>
+          <div>
+            <div class="compare-row-title">Deep multimodal</div>
+            <div class="compare-row-text">Analyzes tone, visual demos, founder confidence scores, and sentiment from live video</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="compare-row-icon" style="color: var(--accent3);">✓</div>
+          <div>
+            <div class="compare-row-title">Live grounding</div>
+            <div class="compare-row-text">Every claim verified against real-time web data via Google Search API — zero hallucinations</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUTURE SCOPE -->
+<section class="section" id="scope" style="padding-top:0;">
+  <div class="reveal">
+    <div class="section-badge">✦ Future Roadmap</div>
+    <h2 class="section-title">Autonomous. Personalized.<br>Always learning.</h2>
+    <p class="section-sub">The current platform is v1. Here's where we're taking autonomous investment intelligence next.</p>
+  </div>
+  <div class="future-grid reveal">
+    <div class="future-card fc1">
+      <div class="future-icon icon-blue">🧠</div>
+      <div class="future-title">Personalized ML</div>
+      <div class="future-desc">Train custom models on your firm's unique investment history to detect risk patterns and tune conviction scoring to your thesis.</div>
+      <div class="future-tags"><span class="ftag">Vertex AI</span></div>
+    </div>
+    <div class="future-card fc2">
+      <div class="future-icon icon-purple">🤖</div>
+      <div class="future-title">Autonomous Agents</div>
+      <div class="future-desc">End-to-end due diligence — from continuous competitor scraping to hands-free conversational analysis — with zero human prompting.</div>
+      <div class="future-tags"><span class="ftag">Cloud Run</span><span class="ftag">AI Agents</span></div>
+    </div>
+    <div class="future-card fc3">
+      <div class="future-icon icon-teal">📡</div>
+      <div class="future-title">Live Dashboard</div>
+      <div class="future-desc">Consolidate charts, tables, and portfolio insights into a single live interface that updates automatically as market conditions shift.</div>
+      <div class="future-tags"><span class="ftag">Looker</span><span class="ftag">Pub/Sub</span></div>
+    </div>
+    <div class="future-card fc4">
+      <div class="future-icon icon-orange">🗃️</div>
+      <div class="future-title">Universal Data</div>
+      <div class="future-desc">Native support for SQL, NoSQL, and Time Series data ensures maximum flexibility for any enterprise data source or legacy system.</div>
+      <div class="future-tags"><span class="ftag">Spanner</span><span class="ftag">Firestore</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section reveal">
+  <div class="section-badge" style="display:inline-flex;">✦ Team Dudester</div>
+  <h2 class="section-title" style="margin-top:1rem;">Built by believers.</h2>
+  <div class="team-card">
+    <div class="team-avatar">MJ</div>
+    <div class="team-name">Manan Jain</div>
+    <div class="team-role">Team Leader · Founder</div>
+    <div class="team-badge">Google Cloud Certified Generative AI Leader</div>
+    <div style="font-size:13px; color: var(--text3); max-width: 320px; text-align:center; font-weight:300; margin-top:0.5rem;">Solving the $50,000-per-deal problem that makes VC due diligence mathematically impossible at scale.</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div style="position:relative; z-index:1;">
+    <div class="section-badge" style="display:inline-flex;">✦ Get Early Access</div>
+    <h2 class="cta-title" style="margin-top:1rem;">
+      Ready to invest<br>
+      <span style="background: linear-gradient(135deg, #4F6EF7, #2CDBA8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">with intelligence?</span>
+    </h2>
+    <p class="cta-sub">Join the waitlist. Be the first VC firm to close deals 10× faster.</p>
+    <div style="display:flex; gap:1rem; align-items:center; justify-content:center; flex-wrap:wrap;">
+      <button class="btn-primary" onclick="this.textContent='✓ Request submitted!'">Request a Demo →</button>
+      <button class="btn-secondary" onclick="this.textContent='✓ Added to waitlist!'">Join Waitlist</button>
+    </div>
+    <div class="cta-note">Built at Gen AI Exchange Hackathon · Powered by Google Cloud &amp; Gemini</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">AI Analyst</div>
+  <div class="footer-text">© 2025 Team Dudester · Built at Gen AI Exchange Hackathon</div>
+  <div class="footer-links">
+    <a href="#features">Features</a>
+    <a href="#stack">Stack</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // How it works step switcher
+  const mockContents = [
+    `<div class="mock-header"><div class="mock-logo">AI Analyst</div><div class="mock-tabs"><div class="mock-tab active">Upload</div><div class="mock-tab">Process</div></div></div>
+    <div style="background:var(--surface); border:2px dashed var(--border2); border-radius:12px; padding:2rem; text-align:center; flex:1;">
+      <div style="font-size:2rem; margin-bottom:0.75rem;">📄</div>
+      <div style="font-size:13px; color: var(--text2);">Drop pitch deck PDF, paste YouTube URL, or connect MongoDB</div>
+      <div style="font-size:11px; color: var(--text3); margin-top:0.5rem; font-family: var(--font-mono);">Accepts: PDF · MP4 · YouTube · MongoDB · URLs</div>
+    </div>
+    <div class="mock-verdict"><div class="verdict-dot"></div><div class="verdict-text">Any format accepted → unified pipeline →</div></div>`,
+
+    `<div class="mock-header"><div class="mock-logo">Processing</div><div style="font-size:11px; color:var(--accent3); font-family:var(--font-mono);">● Live</div></div>
+    <div style="display:flex; flex-direction:column; gap:8px; flex:1;">
+      ${['Cloud Vision OCR · extracting tables', 'YouTube Transcript API · capturing speech', 'Crawl4AI · scraping competitor sites', 'Gemini Vision · analyzing charts & visuals'].map((t,i) => `<div style="display:flex; align-items:center; gap:10px; background:var(--surface); border-radius:8px; padding:10px 14px; border:1px solid var(--border); animation: fadeUp 0.4s ${i*0.1}s both;"><div style="width:8px; height:8px; border-radius:50%; background:var(--accent3); flex-shrink:0;"></div><div style="font-size:12px; font-family:var(--font-mono); color:var(--text2);">${t}</div></div>`).join('')}
+    </div>`,
+
+    `<div class="mock-header"><div class="mock-logo">Gemini 3.0 Pro</div><div style="font-size:11px; color:var(--accent); font-family:var(--font-mono);">Reasoning…</div></div>
+    <div style="display:flex; flex-direction:column; gap:8px; flex:1;">
+      ${[['Entity Extraction','Founders, metrics, market size identified','var(--accent)'],['Semantic Scoring','Investment signal strength: 87/100','var(--accent3)'],['Fact Checking','4/4 claims verified vs live data','var(--accent3)'],['Risk Detection','High fixed cost sensitivity flagged','#F7604F']].map(([t,d,c]) => `<div style="background:var(--surface); border-radius:8px; padding:10px 14px; border:1px solid var(--border);"><div style="font-size:11px; font-weight:500; color:${c}; margin-bottom:2px;">${t}</div><div style="font-size:11px; color:var(--text3);">${d}</div></div>`).join('')}
+    </div>`,
+
+    `<div class="mock-header"><div class="mock-logo">AI Analyst</div><div class="mock-tabs"><div class="mock-tab active">Summary</div><div class="mock-tab">Forensics</div></div></div>
+    <div class="mock-grid"><div class="mock-card"><div class="mock-card-label">Revenue Trend</div><div class="mock-card-val up">₹40L/mo</div><div class="mock-bars"><div class="mock-bar" style="height:25%"></div><div class="mock-bar" style="height:35%"></div><div class="mock-bar" style="height:50%"></div><div class="mock-bar" style="height:65%"></div><div class="mock-bar active" style="height:90%"></div></div></div><div class="mock-card"><div class="mock-card-label">Net Margin</div><div class="mock-card-val neutral">32%</div><div style="font-size:11px;color:var(--text3);margin-top:6px;">at ₹1 Cr MRR</div><div style="margin-top:10px;height:4px;background:var(--surface2);border-radius:2px;"><div style="width:32%;height:100%;background:var(--accent);border-radius:2px;"></div></div></div></div>
+    <div class="mock-verdict"><div class="verdict-dot"></div><div class="verdict-text">BUY / INVEST — Breakeven Month 9 · Export JSON ↗</div></div>`
+  ];
+
+  function setStep(el, idx) {
+    document.querySelectorAll('.step-item').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    const mc = document.getElementById('mock-content');
+    mc.style.opacity = '0';
+    mc.style.transform = 'translateY(8px)';
+    setTimeout(() => {
+      mc.innerHTML = mockContents[idx];
+      mc.style.transition = 'all 0.3s ease';
+      mc.style.opacity = '1';
+      mc.style.transform = 'translateY(0)';
+    }, 200);
+  }
+
+  // Animate stat numbers
+  function animateCount(el, target, suffix, decimals) {
+    const start = 0;
+    const duration = 1800;
+    const startTime = performance.now();
+    function update(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const val = start + (target - start) * eased;
+      el.textContent = (decimals ? val.toFixed(1) : Math.round(val)) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('.stat-num');
+        [
+          [118, ' Hrs', false],
+          [90, '%', false],
+          [42, '%', false],
+          [99, '%', false]
+        ].forEach(([target, suffix, dec], i) => {
+          if (nums[i]) animateCount(nums[i], target, suffix, dec);
+        });
+        statObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const strip = document.querySelector('.stats-strip');
+  if (strip) statObserver.observe(strip);
+</script>
+</body>
+</html>
