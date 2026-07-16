@@ -1,5 +1,5 @@
 # DudePLIX — Secure AI Insights Assistant
-![DudePLIX](./image-1%20(2).jpg)
+![DudePLIX](https://github.com/manan-dude/DudePLIX/blob/main/image-1.png)
 ![DudePLIX](./image-2%20(2).jpg)
 
 
