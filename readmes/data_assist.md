@@ -1,6 +1,6 @@
 # DudePLIX — Secure AI Insights Assistant
-![DudePLIX](/trial/readmes/image-1%20(2).png)
-![DudePLIX](/trial/readmes/image-2%20(2).png)
+![DudePLIX](image-1%20(2).png)
+![DudePLIX](image-2%20(2).png)
 
 
 A secure, multi-source internal analytics assistant for entertainment leadership.
@@ -45,7 +45,7 @@ It is built to answer questions like:
 
 ## Architecture overview
 
-![Architecture](/trial/readmes/image.png)
+![Architecture](image.png)
 
 ---
 
